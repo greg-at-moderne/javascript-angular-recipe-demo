@@ -97,6 +97,28 @@ jobs:
         shell: bash
         run: mod build . --no-download
 
+      - name: Run Angular v19 codemod migration recipe
+        shell: bash
+        run: mod-run . --recipe=org.openrewrite.codemods.migrate.angular.v19
+
+      - name: Apply v19 changes and rebuild LST
+        shell: bash
+        run: |
+          mod git apply . --last-recipe-run
+          npm install
+          mod build . --no-download
+
+      - name: Run Angular v20 codemod migration recipe
+        shell: bash
+        run: mod-run . --recipe=org.openrewrite.codemods.migrate.angular.v20
+
+      - name: Apply v20 changes and rebuild LST
+        shell: bash
+        run: |
+          mod git apply . --last-recipe-run
+          npm install
+          mod build . --no-download
+
       - name: Run Angular v21 codemod migration recipe
         shell: bash
         run: mod-run . --recipe=org.openrewrite.codemods.migrate.angular.v21
