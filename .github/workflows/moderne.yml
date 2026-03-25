@@ -15,16 +15,16 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            cli-version: "3.57.15"
+            cli-version: "3.57.16"
             java-version: "17"
           - os: ubuntu-latest
-            cli-version: "4.0.5"
+            cli-version: "4.0.8"
             java-version: "25"
           - os: windows-latest
-            cli-version: "3.57.15"
+            cli-version: "3.57.16"
             java-version: "17"
           - os: windows-latest
-            cli-version: "4.0.5"
+            cli-version: "4.0.8"
             java-version: "25"
     runs-on: ${{ matrix.os }}
 
@@ -77,13 +77,13 @@ jobs:
 
       - name: Install recipe JAR for codemods
         env:
-          REWRITE_CODEMODS_NG_VERSION: "0.18.2"
+          REWRITE_CODEMODS_NG_VERSION: "0.19.0"
         shell: bash
         run: mod config recipes jar install org.openrewrite.recipe:rewrite-codemods-ng:${{ env.REWRITE_CODEMODS_NG_VERSION }}
 
       - name: Install recipe NPM package for rewrite-angular
         env:
-          RECIPES_ANGULAR_VERSION: "1.0.2"
+          RECIPES_ANGULAR_VERSION: "1.0.4"
         shell: bash
         run: mod config recipes npm install @openrewrite/recipes-angular@${{ env.RECIPES_ANGULAR_VERSION }}
 
