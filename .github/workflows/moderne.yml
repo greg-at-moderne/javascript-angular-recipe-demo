@@ -69,12 +69,6 @@ jobs:
 
           echo "$GITHUB_WORKSPACE" >> $GITHUB_PATH
 
-      - name: Install recipe JAR for codemods
-        env:
-          REWRITE_CODEMODS_NG_VERSION: "0.20.1"
-        shell: bash
-        run: mod config recipes jar install org.openrewrite.recipe:rewrite-codemods-ng:${{ env.REWRITE_CODEMODS_NG_VERSION }}
-
       - name: Install recipe NPM package for rewrite-angular
         env:
           RECIPES_ANGULAR_VERSION: "1.1.0"
@@ -84,10 +78,6 @@ jobs:
       - name: Build LST
         shell: bash
         run: mod build . --no-download
-
-      - name: Run Angular v21 codemod migration recipe
-        shell: bash
-        run: mod-run . --recipe=org.openrewrite.codemods.migrate.angular.v21
 
       - name: Run UpgradeToAngular21 recipe
         shell: bash
