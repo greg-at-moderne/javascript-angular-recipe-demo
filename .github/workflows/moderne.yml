@@ -64,7 +64,17 @@ jobs:
             echo "::warning::Recipe execution reported errors (may be bugs in recipe sub-components)"
             echo "--- SourcesFileErrors ---"
             mod study . --last-recipe-run --data-table SourcesFileErrors 2>&1 || true
-            cat .moderne/run/*/datatables/org.openrewrite.table.SourcesFileErrors.csv 2>/dev/null || true
+            for csv in .moderne/run/*/datatables/org.openrewrite.table.SourcesFileErrors.csv; do
+              [ -f "$csv" ] || continue
+              python3 -c "
+          import csv, sys
+          with open(sys.argv[1]) as f:
+              for row in csv.reader(f):
+                  print('-------------')
+                  print(','.join(row))
+          print('-------------')
+          " "$csv"
+            done
           fi
           if grep -q "Unable to find recipe" output_rendered.log; then
             echo "Recipe not found"
@@ -98,22 +108,3 @@ jobs:
       - name: Run UpgradeToAngular21 recipe
         shell: bash
         run: mod-run . --recipe=org.openrewrite.angular.UpgradeToAngular21
-
-      - name: Print SourcesFileErrors for UpgradeToAngular21
-        if: always()
-        shell: bash
-        run: |
-          if grep -q "SourcesFileErrors" output_rendered.log 2>/dev/null; then
-            mod study . --last-recipe-run --data-table SourcesFileErrors 2>&1 || true
-            for csv in .moderne/run/*/datatables/org.openrewrite.table.SourcesFileErrors.csv; do
-              [ -f "$csv" ] || continue
-              python3 -c "
-          import csv, sys
-          with open(sys.argv[1]) as f:
-              for row in csv.reader(f):
-                  print('-------------')
-                  print(','.join(row))
-          print('-------------')
-          " "$csv"
-            done
-          fi
