@@ -105,5 +105,12 @@ jobs:
         run: |
           if grep -q "SourcesFileErrors" output_rendered.log 2>/dev/null; then
             mod study . --last-recipe-run --data-table SourcesFileErrors 2>&1 || true
-            cat .moderne/run/*/datatables/org.openrewrite.table.SourcesFileErrors.csv 2>/dev/null || true
+            for csv in .moderne/run/*/datatables/org.openrewrite.table.SourcesFileErrors.csv; do
+              [ -f "$csv" ] || continue
+              while IFS= read -r line; do
+                echo "-------------"
+                echo "$line"
+              done < "$csv"
+              echo "-------------"
+            done
           fi
