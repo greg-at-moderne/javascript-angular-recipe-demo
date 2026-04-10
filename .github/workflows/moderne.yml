@@ -92,3 +92,11 @@ jobs:
       - name: Run UpgradeToAngular21 recipe
         shell: bash
         run: mod-run . --recipe=org.openrewrite.angular.UpgradeToAngular21
+
+      - name: Upload patch files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: recipe-patches
+          path: .moderne/run/*/fix.patch
+          if-no-files-found: ignore
