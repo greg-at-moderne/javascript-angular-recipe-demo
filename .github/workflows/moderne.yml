@@ -69,6 +69,10 @@ jobs:
 
           echo "$GITHUB_WORKSPACE" >> $GITHUB_PATH
 
+      - name: Install recipe NPM package for rewrite
+        shell: bash
+        run: mod config recipes npm install @openrewrite/rewrite
+
       - name: Install recipe NPM package for rewrite-angular
         env:
           RECIPES_ANGULAR_VERSION: "1.1.0"
