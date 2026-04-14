@@ -94,3 +94,11 @@ jobs:
           name: recipe-patches
           path: .moderne/run/*/fix.patch
           if-no-files-found: ignore
+
+      - name: Upload run log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-log
+          path: .moderne/run/*/run.log
+          if-no-files-found: ignore
