@@ -79,6 +79,16 @@ jobs:
         shell: bash
         run: mod config recipes npm install @openrewrite/recipes-angular@${{ env.RECIPES_ANGULAR_VERSION }}
 
+      - name: Configure build steps
+        shell: bash
+        run: |
+          mkdir -p ~/.moderne/cli
+          cat >> ~/.moderne/cli/moderne.yml <<'EOF'
+          build:
+            steps:
+              - type: javascript
+          EOF
+
       - name: Build LST
         shell: bash
         run: mod build . --no-download
