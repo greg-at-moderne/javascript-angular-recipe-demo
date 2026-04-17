@@ -102,3 +102,11 @@ jobs:
           name: run-log
           path: .moderne/run/*/run.log
           if-no-files-found: ignore
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: .moderne/build/*/build.log
+          if-no-files-found: ignore
